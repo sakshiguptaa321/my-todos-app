@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+
+const allTodos = [
+  {
+    title: "Todo 1",
+    completed: false
+  },
+  {
+    title: "Todo 2",
+    completed: false
+  },
+  {
+    title: "Todo 3",
+    completed: false
+  }
+]
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const todos = ["Learn React", "Learn Vite", "Learn Javascript"];
+  const [todos, setTodos] = useState(allTodos);
+  const [todoText, setTodoText] = useState("");
+
+  const onClickAddTodo = () => {
+    setTodos([
+      ...todos,
+      todoText
+    ])
+    setTodoText("");
+  }
+
+  const onChangeTodoText = (e) => {
+    setTodoText(e.target.value);
+  }
+
+  const onClickItem = (currentTodo) => {
+    console.log(currentTodo);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1>This is my todo app</h1>
+      <input type="text" id="todoText" onChange={onChangeTodoText} value={todoText} />
+      <button onClick={onClickAddTodo}>Add Todo</button>
+      <ol>
+      {
+        todos.map((todo, idx) => (
+          <li 
+            onClick={ () => onClickItem(todo)} key={idx}
+            style={{
+              textDecoration: todo.completed ? 'line-through': 'none'
+            }}
+          >
+              {todo.title}
+          </li>
+        ))
+      }
+      </ol>
+    </div>
   )
 }
 
